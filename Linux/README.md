@@ -13,7 +13,8 @@
 - **Disco:** 40 GB  
 - **Red:** 2 adaptadores  
 
-![Configuración del Linux](images/1.png)
+![Configuración de la máquina virtual](Imagenes/1.png)
+
 
 ## 🌐 2. Configuración de Red en VirtualBox
 
