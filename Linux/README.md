@@ -1,5 +1,6 @@
-cat <<'EOF' > README.md
-# Linux Server – Ubuntu + Samba Active Directory Domain Controller
+# Sprint 1 – Lab Activity  
+
+## Linux Server – Ubuntu + Samba Active Directory Domain Controller
 
 ## Sprint 1 – Lab Activity  
 **Linux Server (Ubuntu Server) + Samba AD DC**
@@ -549,6 +550,7 @@ sudo samba-tool domain passwordsettings set --account-lockout-threshold=3
 Lockout duration:
 
 sudo samba-tool domain passwordsettings set --account-lockout-duration=5
+
 
 
 
