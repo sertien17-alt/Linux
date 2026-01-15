@@ -261,7 +261,6 @@ klist
 
 ![Network Configuration](Imagenes/23.png)
 
-cat <<'EOF' > README.md
 # Sprint 2
 
 ## Ubuntu Desktop Client + Samba Active Directory Integration
