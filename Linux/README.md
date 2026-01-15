@@ -3,7 +3,7 @@
 ## 📌 Lab Activity
 **Linux Server + Samba Active Directory Domain Controller en VirtualBox**
 
----
+![Configuración de la máquina virtual](Imagenes/0.png)
 
 ## 🖥️ 1. Creación de la Máquina Virtual
 
@@ -13,7 +13,7 @@
 - **Disco:** 40 GB  
 - **Red:** 2 adaptadores  
 
-![Configuración de la máquina virtual](Imagenes/1.png)
+
 
 
 ## 🌐 2. Configuración de Red en VirtualBox
@@ -30,7 +30,7 @@
 - Nombre: `intnet`  
 - Propósito: Tráfico interno para futuros clientes del dominio  
 
----
+![Configuración de la máquina virtual](Imagenes/1.png)
 
 ## 🐧 Instalación de Ubuntu Server y Configuración de Red
 
@@ -41,7 +41,7 @@ Durante la instalación se configura el hostname y la IP estática.
 - **Usuario:** Sergio  
 - **Contraseña:** admin_21  
 
----
+![Configuración de la máquina virtual](Imagenes/2.png)
 
 ## 🌍 Configuración de Red (Netplan)
 
