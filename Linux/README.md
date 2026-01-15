@@ -261,3 +261,294 @@ klist
 
 ![Network Configuration](Imagenes/23.png)
 
+cat <<'EOF' > README.md
+# Sprint 2 – Ubuntu Desktop Client + Samba Active Directory Integration
+
+## Lab Activity – Domain Client, Users, Groups and GPO
+
+---
+
+## 1. Create Ubuntu Desktop Virtual Machine
+
+Create an Ubuntu Desktop client virtual machine.
+
+### Change Hostname
+
+sudo hostnamectl set-hostname cli-ssd
+
+---
+
+## 2. Network Configuration
+
+Configure IPv4 network settings as shown in the lab images.
+
+### Connectivity Tests
+
+Client:
+
+ping 192.168.10.37
+ping lab04.lan
+
+Server:
+
+ping cli-ssd
+
+---
+
+## 3. Hosts File Configuration
+
+sudo nano /etc/hosts
+
+Add server IP and domain name.
+
+---
+
+## 4. Netplan Configuration
+
+Switch to root:
+
+sudo su
+
+Edit netplan:
+
+nano /etc/netplan/01-network-manager-all.yaml
+
+Apply:
+
+sudo netplan apply
+
+Fix permissions if needed:
+
+sudo chmod 600 /etc/netplan/01-network-manager-all.yaml
+sudo chown root:root /etc/netplan/01-network-manager-all.yaml
+sudo netplan apply
+
+Verify routing:
+
+ip route
+
+---
+
+## 5. Internet Access Troubleshooting
+
+### Enable IP Forwarding (Server)
+
+sudo nano /etc/sysctl.conf
+
+Add at the end:
+
+net.ipv4.ip_forward=1
+
+Apply:
+
+sudo sysctl -p
+sysctl net.ipv4.ip_forward
+
+### Configure NAT (Server)
+
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+sudo iptables -t nat -L -n -v
+
+Verify internet from client.
+
+---
+
+## 6. Time Synchronization (NTP)
+
+### Server
+
+sudo apt update
+sudo apt install chrony -y
+sudo nano /etc/chrony/chrony.conf
+
+Restart:
+
+sudo systemctl restart chrony
+sudo ufw allow 123/udp
+
+### Client
+
+sudo nano /etc/systemd/timesyncd.conf
+sudo systemctl restart systemd-timesyncd
+
+Verify:
+
+timedatectl show-timesync --all
+
+Alternative:
+
+sudo apt-get install ntpdate
+sudo ntpdate lab04.lan
+sudo ntpdate -q lab04.lan
+
+---
+
+## 7. Install Required Packages (Client)
+
+sudo apt update
+sudo apt-get install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind
+
+If errors:
+
+sudo systemctl stop unattended-upgrades
+sudo kill -9 4363
+sudo dpkg --configure -a
+sudo apt-get install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind
+
+---
+
+## 8. Kerberos Authentication Test
+
+kinit administrator@LAB04.LAN
+klist
+
+---
+
+## 9. Kerberos Configuration
+
+sudo nano /etc/krb5.conf
+
+Add:
+
+dns_lookup_realm = true
+dns_lookup_kdc = true
+
+---
+
+## 10. Samba Configuration
+
+sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.initial
+sudo nano /etc/samba/smb.conf
+
+Restart services:
+
+sudo systemctl restart smbd nmbd
+sudo systemctl stop samba-ad-dc
+sudo systemctl enable smbd nmbd
+
+---
+
+## 11. Join Ubuntu Desktop to Domain
+
+sudo net ads join -U administrator
+
+Server verification:
+
+sudo samba-tool computer list
+
+---
+
+## 12. Domain Authentication
+
+sudo nano /etc/nsswitch.conf
+sudo systemctl restart winbind
+
+List users and groups:
+
+wbinfo -u
+wbinfo -g
+
+Verify administrator:
+
+getent passwd | grep administrator
+id administrator
+
+---
+
+## 13. PAM Configuration
+
+sudo pam-auth-update
+
+Select:
+Create home directory on login
+
+Edit:
+
+sudo nano /etc/pam.d/common-account
+
+Add:
+
+session required pam_mkhomedir.so skel=/etc/skel umask=0022
+
+---
+
+## 14. Login with Domain User
+
+Login as:
+
+administrator@lab04.lan
+
+Grant sudo:
+
+sudo usermod -aG sudo administrator
+
+---
+
+## 15. User and Group Management (Server)
+
+Create group:
+
+sudo samba-tool group add IT_departaments --group-scope=Universal --group-type=Security
+
+Create user:
+
+sudo samba-tool user create alice
+
+Add user to group:
+
+sudo samba-tool group addmembers IT_admins alice
+
+---
+
+## 16. Organizational Units
+
+Create OU:
+
+sudo samba-tool ou create "OU=IT_departaments,DC=lab04,DC=lan"
+
+Move users:
+
+sudo samba-tool user move alice "OU=IT_departaments,DC=lab04,DC=lan"
+sudo samba-tool user move bob "OU=Students,DC=lab04,DC=lan"
+sudo samba-tool user move charlie "OU=HR_Department,DC=lab04,DC=lan"
+
+Move groups:
+
+sudo samba-tool group move IT_admins "OU=IT_departaments,DC=lab04,DC=lan"
+sudo samba-tool group move Students "OU=Students,DC=lab04,DC=lan"
+sudo samba-tool group move IT_departaments "OU=HR_Department,DC=lab04,DC=lan"
+
+Verify:
+
+sudo samba-tool ou list
+
+---
+
+## 17. Group Policy Object (GPO)
+
+Create GPO:
+
+sudo samba-tool gpo create "IT_Security_Policy" -U Administrator
+
+Link GPO:
+
+sudo samba-tool gpo setlink "OU=IT_departaments,DC=lab04,DC=lan" {6DCC05BC-2848-4F4E-89E4-44EBE1A4C823} -U Administrator
+
+---
+
+## 18. Security Policies
+
+Minimum password length:
+
+sudo samba-tool domain passwordsettings set --min-pwd-length=8
+
+Account lockout after 3 attempts:
+
+sudo samba-tool domain passwordsettings set --account-lockout-threshold=3
+
+Lockout duration:
+
+sudo samba-tool domain passwordsettings set --account-lockout-duration=5
+
+
+
