@@ -4,7 +4,7 @@
 
 **Linux Server (Ubuntu Server) + Samba AD DC**
 
-![Linux Course](Imagenes/0.png)
+![Linux Course](Imagenes/Sprint1Image/0.png)
 
 
 ## 1. Virtual Machine Creation
@@ -31,7 +31,7 @@ Create a virtual machine with the following specifications:
 **Server IP:**  
 172.30.20.39
 
-![Network Configuration](Imagenes/1.png)
+![Network Configuration](Imagenes/Sprint1Image/1.png)
 
 ### Adapter 2 – DOMAIN NETWORK
 - **Enabled**
@@ -49,9 +49,9 @@ Create a virtual machine with the following specifications:
 - **Username:** Sergio  
 - **Password:** admin_21  
 
-![Network Configuration](Imagenes/2.png)
+![Network Configuration](Imagenes/Sprint1Image/2.png)
 
-![Network Configuration](Imagenes/3.png)
+![Network Configuration](Imagenes/Sprint1Image/3.png)
 
 ## 4. Network Configuration (Netplan)
 
@@ -74,7 +74,7 @@ Apply changes:
 
 sudo netplan apply
 
-![Network Configuration](Imagenes/4.png)
+![Network Configuration](Imagenes/Sprint1Image/4.png)
 
 ## 5. Why Use a FQDN?
 
@@ -92,13 +92,13 @@ Set hostname:
 sudo hostnamectl set-hostname ls04
 
 
-![Network Configuration](Imagenes/5.png)
+![Network Configuration](Imagenes/Sprint1Image/5.png)
 
 Edit hosts file:
 
 sudo nano /etc/hosts
 
-![Network Configuration](Imagenes/6.png)
+![Network Configuration](Imagenes/Sprint1Image/6.png)
 
 Add server IP and hostname.
 
@@ -111,17 +111,17 @@ Verify:
 ping ls04
 
 
-![Network Configuration](Imagenes/7.png)
+![Network Configuration](Imagenes/Sprint1Image/7.png)
 
 
-![Network Configuration](Imagenes/8.png)
+![Network Configuration](Imagenes/Sprint1Image/8.png)
 
 ## 7. Install SSH (Optional)
 
 sudo apt install openssh-server
 
 
-![Network Configuration](Imagenes/9.png)
+![Network Configuration](Imagenes/Sprint1Image/9.png)
 
 ## 8. Prepare Server for Samba AD
 
@@ -129,7 +129,7 @@ Disable systemd-resolved:
 
 sudo systemctl disable --now systemd-resolved
 
-![Network Configuration](Imagenes/10.png)
+![Network Configuration](Imagenes/Sprint1Image/10.png)
 
 Remove symlink:
 
@@ -139,7 +139,7 @@ Create resolv.conf:
 
 sudo nano /etc/resolv.conf
 
-![Network Configuration](Imagenes/11.png)
+![Network Configuration](Imagenes/Sprint1Image/11.png)
 
 Make immutable:
 
@@ -151,13 +151,13 @@ sudo apt update
 sudo apt install samba winbind smbclient krb5-user dnsutils -y
 
 
-![Network Configuration](Imagenes/12.png)
+![Network Configuration](Imagenes/Sprint1Image/12.png)
 
-![Network Configuration](Imagenes/13.png)
+![Network Configuration](Imagenes/Sprint1Image/13.png)
 
-![Network Configuration](Imagenes/14.png)
+![Network Configuration](Imagenes/Sprint1Image/14.png)
 
-![Network Configuration](Imagenes/15.png)
+![Network Configuration](Imagenes/Sprint1Image/15.png)
 
 ## 10. Disable Classic Samba Services
 
@@ -169,7 +169,7 @@ Enable Samba AD DC:
 sudo systemctl unmask samba-ad-dc  
 sudo systemctl enable samba-ad-dc  
 
-![Network Configuration](Imagenes/16.png)
+![Network Configuration](Imagenes/Sprint1Image/16.png)
 
 ## 11. Backup Samba Configuration
 
@@ -180,7 +180,7 @@ sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
 
 sudo samba-tool domain provision
 
-![Network Configuration](Imagenes/17.png)
+![Network Configuration](Imagenes/Sprint1Image/17.png)
 
 Copy Kerberos config:
 
@@ -193,7 +193,7 @@ sudo cp /var/lib/samba/private/krb5.conf /etc/krb5.conf
 sudo systemctl start samba-ad-dc  
 sudo systemctl status samba-ad-dc  
 
-![Network Configuration](Imagenes/18.png)
+![Network Configuration](Imagenes/Sprint1Image/18.png)
 
 
 ## 14. Configure Time Synchronization (NTP)
@@ -217,7 +217,7 @@ bindcmdaddress 192.168.10.37
 allow 192.168.10.1/24  
 ntpsigndsocket /var/lib/samba/ntp_signd  
 
-![Network Configuration](Imagenes/19.png)
+![Network Configuration](Imagenes/Sprint1Image/19.png)
 
 Restart Chrony:
 
@@ -230,20 +230,20 @@ sudo systemctl status chronyd
 host -t A lab04.lan  
 host -t A ls04.lab04.lan  
 
-![Network Configuration](Imagenes/20.png)
+![Network Configuration](Imagenes/Sprint1Image/20.png)
 
 Kerberos and LDAP:
 
 host -t SRV _kerberos._udp.lab04.lan  
 host -t SRV _ldap._tcp.lab04.lan  
 
-![Network Configuration](Imagenes/21.png)
+![Network Configuration](Imagenes/Sprint1Image/21.png)
 
 ## 16. Verify Samba Shares
 
 smbclient -L lab04.lan -N
 
-![Network Configuration](Imagenes/22.png)
+![Network Configuration](Imagenes/Sprint1Image/22.png)
 
 ## 17. Final Validation – Kerberos
 
@@ -259,5 +259,5 @@ Verify ticket:
 
 klist
 
-![Network Configuration](Imagenes/23.png)
+![Network Configuration](Imagenes/Sprint1Image/23.png)
 
