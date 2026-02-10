@@ -165,18 +165,26 @@ $ sudo systemctl restart smbd nmbd
 $ sudo systemctl stop samba-ad-dc
 $ sudo systemctl enable smbd nmbd
 
+![Linux Course](Imagenes/Sprint2Image/2_22.png)
+
 ## 13. Join Ubuntu Desktop to Samba Active Directory
 
 Join the domain:
 $ sudo net ads join -U administrator
 
+![Linux Course](Imagenes/Sprint2Image/2_23.png)
+
 Verify on server:
 $ sudo samba-tool computer list
+
+![Linux Course](Imagenes/Sprint2Image/2_24.png)
 
 ## 14. Configure Authentication with Active Directory
 
 Edit NSS configuration:
 $ sudo nano /etc/nsswitch.conf
+
+![Linux Course](Imagenes/Sprint2Image/2_25.png)
 
 Restart Winbind and verify users:
 $ sudo systemctl restart winbind
@@ -185,10 +193,14 @@ $ wbinfo -g
 $ getent passwd | grep administrator
 $ id administrator
 
+![Linux Course](Imagenes/Sprint2Image/2_26.png)
+
 ## 15. PAM Configuration for Home Directory Creation
 
 Enable automatic home directory creation:
 $ sudo pam-auth-update
+
+![Linux Course](Imagenes/Sprint2Image/2_27.png)
 
 Edit PAM configuration:
 $ sudo nano /etc/pam.d/common-account
@@ -196,25 +208,41 @@ $ sudo nano /etc/pam.d/common-account
 Add at the end:
 session required pam_mkhomedir.so skel=/etc/skel/ umask=0022
 
+![Linux Course](Imagenes/Sprint2Image/2_28.png)
+
 ## 16. Grant Sudo Permissions to Domain Administrator
 
 Add administrator to sudo group:
 $ sudo usermod -aG sudo administrator
 
+![Linux Course](Imagenes/Sprint2Image/2_29.png)
+
 Login using:
 administrator@lab04.lan
+
+![Linux Course](Imagenes/Sprint2Image/2_30.png)
 
 ## 17. User and Group Management in Samba AD
 
 Create group and users:
 $ sudo samba-tool group add IT_departaments --group-scope=Universal --group-type=Security
+
+![Linux Course](Imagenes/Sprint2Image/2_31.png)
+
 $ sudo samba-tool user create alice
+
+![Linux Course](Imagenes/Sprint2Image/2_32.png)
+
 $ sudo samba-tool group addmembers IT_admins alice
+
+![Linux Course](Imagenes/Sprint2Image/2_33.png)
 
 ## 18. Organizational Units (OU)
 
 Create OU:
 $ sudo samba-tool ou create "OU=IT_departaments,DC=lab04,DC=lan"
+
+![Linux Course](Imagenes/Sprint2Image/2_34.png)
 
 Move users:
 $ sudo samba-tool user move alice "OU=IT_departaments,DC=lab04,DC=lan"
@@ -226,30 +254,59 @@ $ sudo samba-tool group move IT_admins "OU=IT_departaments,DC=lab04,DC=lan"
 $ sudo samba-tool group move Students "OU=Students,DC=lab04,DC=lan"
 $ sudo samba-tool group move IT_departaments "OU=HR_Department,DC=lab04,DC=lan"
 
+![Linux Course](Imagenes/Sprint2Image/2_35.png)
+
 Verify:
 $ sudo samba-tool ou list
+
+![Linux Course](Imagenes/Sprint2Image/2_36.png)
 
 ## 19. Group Policy Objects (GPO)
 
 Create GPO:
 $ sudo samba-tool gpo create "IT_Security_Policy" -U Administrator
 
+![Linux Course](Imagenes/Sprint2Image/2_37.png)
+
 Link GPO to IT OU:
 $ sudo samba-tool gpo setlink "OU=IT_departaments,DC=lab04,DC=lan" {6DCC05BC-2848-4F4E-89E4-44EBE1A4C823} -U Administrator
+
+
+![Linux Course](Imagenes/Sprint2Image/2_38.png)
 
 ## 20. Password Security Policies
 
 Set domain password policies:
 $ sudo samba-tool domain passwordsettings set --min-pwd-length=8
+
+
+![Linux Course](Imagenes/Sprint2Image/2_39.png)
+
 $ sudo samba-tool domain passwordsettings set --account-lockout-threshold=3
+
+
+![Linux Course](Imagenes/Sprint2Image/2_40.png)
+
 $ sudo samba-tool domain passwordsettings set --account-lockout-duration=5
+
+
+![Linux Course](Imagenes/Sprint2Image/2_41.png)
+
+Verify:
+
+
+![Linux Course](Imagenes/Sprint2Image/2_42.png)
 
 ## 21. Password Settings Object (PSO)
 
 Create strict PSO:
 $ sudo samba-tool domain passwordsettings pso create "PSO_IT_Estricta" 10 --account-lockout-threshold=3 --account-lockout-duration=5 --reset-account-lockout-after=5 -U Administrator
 
+
+![Linux Course](Imagenes/Sprint2Image/2_43.png)
+
 Apply PSO to IT group:
 $ sudo samba-tool domain passwordsettings pso apply "PSO_IT_Estricta" "it_admins" -U Administrator
 
+![Linux Course](Imagenes/Sprint2Image/2_44.png)
 
