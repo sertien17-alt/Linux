@@ -6,7 +6,6 @@ sudo mkdir -p /srv/samba/Finance
 
 ![Linux Course](Imagenes/Sprint3Image/3_1.png)
 
-sudo mkdir -p /srv/samba/Finance
 Configure the resource in sudo nano /etc/samba/smb.conf
 
 Add at the end of the file:
@@ -17,24 +16,27 @@ Restart Samba:
 
 sudo systemctl restart smbd
 
+
 ## 2. On the Server: Apply Disk Permissions (ACLs)
 
 First install the ACL tools:
-
+```bash
 sudo apt update && sudo apt install acl -y
-
 sudo setfacl -m g:"LAB04\IT_admins":rwx /srv/samba/Finance
-
+```
 
 When executing the command to give permissions to the folders, you will have invalid arguments problems. See some checks:
 
+```bash
 getent group | grep -i IT_admins
+```
 
 This command will verify the group in Ubuntu AD. If nothing appears, it's because it's not resolving AD users.
 
 Modify:
 
 sudo nano /etc/samba/smb.conf
+
 
 ![Linux Course](Imagenes/Sprint3Image/3_3.png)
 
@@ -57,12 +59,12 @@ sudo ldconfig
 sudo systemctl stop samba-ad-dc
 
 # Clear identity caches
+
 sudo net cache flush
 sudo rm -f /var/lib/samba/*.tdb
 sudo rm -f /var/lib/samba/group_mapping.tdb
 
 # Start the service
-
 sudo systemctl start samba-ad-dc
 
 ![Linux Course](Imagenes/Sprint3Image/3_5.png)
@@ -70,7 +72,6 @@ sudo systemctl start samba-ad-dc
 # Now this command will NOT fail
 
 sudo setfacl -m g:it_admins:rwx /srv/samba/Finance
-
 
 If it fails, try this:
 
@@ -82,6 +83,7 @@ If the groups appear, try this:
 
 sudo nano /etc/nsswitch.conf
 
+
 ![Linux Course](Imagenes/Sprint3Image/3_6.png)
 
 For Linux to understand what winbind says, it needs a specific library. If you don't have it, getent will continue to fail. Install it with:
@@ -89,10 +91,12 @@ For Linux to understand what winbind says, it needs a specific library. If you d
 sudo apt update
 sudo apt install libnss-winbind libpam-winbind
 
+
 Now restart the services so they read the new configuration:
 
 sudo systemctl restart winbind
 sudo systemctl restart smbd nmbd
+
 
 Now run again:
 
@@ -108,6 +112,7 @@ sudo setfacl -m 'g:LAB04\it_admins:rwx' /srv/samba/Finance
 sudo setfacl -m g:it_admins:rwx /srv/samba/HRdosc
 sudo setfacl -m g:it_admins:rwx /srv/samba/Public
 
+
 ![Linux Course](Imagenes/Sprint3Image/3_8.png)
 
 ### Permissions for Students (Bob - Restricted Access)
@@ -115,11 +120,9 @@ sudo setfacl -m g:it_admins:rwx /srv/samba/Public
 Bob and his group can only modify Public. In the others, they can only see the content (read and execute to enter the folder).
 
 # In Public: Read and Write Permission
-
 sudo setfacl -m g:studients:rwx /srv/samba/Public
 
 # In Finance and HRdocs: Read Only (rx)
-
 sudo setfacl -m g:studients:rx /srv/samba/Finance
 sudo setfacl -m g:studients:rx /srv/samba/HRdosc
 
@@ -130,15 +133,12 @@ sudo setfacl -m g:studients:rx /srv/samba/HRdosc
 Charlie can modify his HR folder and the public one, but has no access to Finance.
 
 # In HRdocs: Read and Write Permission
-
 sudo setfacl -m g:it_departaments:rwx /srv/samba/HRdosc
 
 # In Public: Read and Write Permission
-
 sudo setfacl -m g:it_departaments:rwx /srv/samba/Public
 
 # In Finance: Deny all access (remove all permissions)
-
 sudo setfacl -m g:it_departaments:--- /srv/samba/Finance
 
 ![Linux Course](Imagenes/Sprint3Image/3_10.png)
@@ -190,12 +190,11 @@ Configure the file:
 
 sudo nano /etc/fstab
 
-![Linux Course](Imagenes/Sprint3Image/3_15.png)
-
 Add to the very end:
 
 LABEL=Datadrive /mnt/Datadrive ext4 defaults 0 2
 
+![Linux Course](Imagenes/Sprint3Image/3_15.png)
 
 **Note:** Make sure it says `ext4` not `ex4`
 
@@ -241,9 +240,7 @@ First press enter and add to the very end:
 
 0 19 * * * /root/backup.sh
 
-
 ![Linux Course](Imagenes/Sprint3Image/3_20.png)
-
 
 ## Basic Security and Auditing
 
@@ -252,7 +249,6 @@ To generate an audit event in Samba logs:
 Enable on the server: Check that in smb.conf the [Finance] folder has:
 
 vfs objects = full_audit
-
 
 ![Linux Course](Imagenes/Sprint3Image/3_21.png)
 
@@ -273,6 +269,7 @@ sudo apt install sl
 To start the train (on the server):
 
 sl
+
 
 ![Linux Course](Imagenes/Sprint3Image/3_22.png)
 
@@ -304,4 +301,3 @@ And to resume:
 kill -18 <process_number_from_ps_aux>
 
 ![Linux Course](Imagenes/Sprint3Image/3_24.png)
-
