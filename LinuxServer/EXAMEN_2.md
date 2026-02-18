@@ -61,7 +61,7 @@ ssh sergio@172.30.20.120
 sudo nano /etc/hosts
 ```
 
-![Archivo /etc/hosts](images/img-001.png)
+![Archivo /etc/hosts](Imagenes/Examen/e_1.png)
 
 **Verificar haciendo ping al nombre ls204 automáticamente tengo respuesta.**
 
@@ -85,7 +85,7 @@ Crear un nuevo fichero resolv.conf:
 sudo nano /etc/resolv.conf
 ```
 
-![resolv.conf](images/img-002.png)
+![resolv.conf](Imagenes/Examen/e_2.png)
 
 ## Con los siguientes comandos instalar samba:
 
@@ -98,15 +98,15 @@ sudo apt install -y acl attr samba samba-dsdb-modules samba-vfs-modules smbclien
 
 Durante la instalación pedirá el dominio de servidores para kerberos, poner el dominio: `lab2044.lan`
 
-![Configuración Kerberos - realm](images/img-003.png)
+![Configuración Kerberos - realm](Imagenes/Examen/e_3.png)
 
 **ls2044.lab2044.lan**
 
-![Configuración Kerberos - servidor](images/img-004.png)
+![Configuración Kerberos - servidor](Imagenes/Examen/e_4.png)
 
 **ls2044.lab2044.lan**
 
-![Configuración Kerberos - admin](images/img-005.png)
+![Configuración Kerberos - admin](Imagenes/Examen/e_5.png)
 
 ---
 
@@ -119,7 +119,7 @@ sudo systemctl stop smbd nmbd winbind
 sudo systemctl disable smbd nmbd winbind
 ```
 
-![Deshabilitar servicios Samba](images/img-006.png)
+![Deshabilitar servicios Samba](Imagenes/Examen/e_6.png)
 
 ---
 
@@ -146,7 +146,7 @@ sudo samba-tool domain provision
 
 > dns es 10.239.3.7
 
-![Provisionar AD Samba](images/img-007.png)
+![Provisionar AD Samba](Imagenes/Examen/e_7.png)
 
 **Crear copia de seguridad de la configuración predeterminada de kerberos:**
 
@@ -182,7 +182,7 @@ sudo systemctl start samba-ad-dc
 sudo systemctl status samba-ad-dc
 ```
 
-![Status samba-ad-dc](images/img-009.png)
+![Status samba-ad-dc](Imagenes/Examen/e_8.png)
 
 **Cambiar el permiso y la propiedad predeterminados del directorio /var/lib/samba/ntp_signd:**
 
@@ -191,7 +191,8 @@ sudo chown root:_chrony /var/lib/samba/ntp_signd
 sudo chmod 750 /var/lib/samba/ntp_signd
 ```
 
-![chown ntp_signd](images/img-016.png)
+![chown ntp_signd](Imagenes/Examen/e_9.png)
+![chown ntp_signd](Imagenes/Examen/e_10.png)
 
 **Modificar el archivo de configuración /etc/chrony/chrony.conf:**
 
@@ -207,7 +208,7 @@ allow 192.168.10.0/24
 ntpsigndsocket /var/lib/samba/ntp_signd
 ```
 
-![chrony.conf](images/img-017.png)
+![chrony.conf](Imagenes/Examen/e_11.png)
 
 **Reiniciar chrony:**
 
@@ -235,7 +236,7 @@ host -t SRV _kerberos._udp.lab04.lan
 host -t SRV _ldap._tcp.lab04.lan
 ```
 
-![Verificación DNS](images/img-018.png)
+![Verificación DNS](Imagenes/Examen/e_12.png)
 
 **Verificar que los recursos predeterminados están disponibles en Samba Active Directory:**
 
@@ -243,7 +244,7 @@ host -t SRV _ldap._tcp.lab04.lan
 smbclient -L lab04.lan -N
 ```
 
-![smbclient](images/img-019.png)
+![smbclient](Imagenes/Examen/e_13.png)
 
 ---
 
@@ -256,9 +257,9 @@ kinit administrator@LAB2044.LAN
 klist
 ```
 
-![kinit](images/img-020.png)
+![kinit](Imagenes/Examen/e_14.png)
 
-![klist](images/img-021.png)
+![klist](Imagenes/Examen/e_15.png)
 
 ---
 
@@ -274,17 +275,17 @@ sudo hostnamectl set-hostname lc04
 
 Ahora hay que configurar la red como lo pone en las imágenes y recuerda en (IPV4).
 
-![Configuración red cliente](images/img-022.png)
+![Configuración red cliente](Imagenes/Examen/e_16.png)
 
 **Ahora comprobamos haciendo un ping:**
 
 **Cliente:**
 
-![Ping desde cliente](images/img-023.png)
+![Ping desde cliente](Imagenes/Examen/e_17.png)
 
 **Server:**
 
-![Ping desde servidor](images/img-024.png)
+![Ping desde servidor](Imagenes/Examen/e_18.png)
 
 **Ahora configuramos el archivo:**
 
@@ -292,11 +293,11 @@ Ahora hay que configurar la red como lo pone en las imágenes y recuerda en (IPV
 sudo nano /etc/hosts
 ```
 
-![/etc/hosts cliente](images/img-025.png)
+![/etc/hosts cliente](Imagenes/Examen/e_19.png)
 
 **Comprobación:**
 
-![Comprobación ping ls04](images/img-026.png)
+![Comprobación ping ls04](Imagenes/Examen/e_20.png)
 
 ---
 
@@ -314,7 +315,7 @@ sudo su
 ip route
 ```
 
-![ip route](images/img-027.png)
+![ip route](Imagenes/Examen/e_21.png)
 
 **Verificar haciendo ping al servidor con IP, DNS y conexión a internet.**
 
@@ -339,7 +340,7 @@ sudo sysctl -p
 sysctl net.ipv4.ip_forward
 ```
 
-![ip_forward](images/img-028.png)
+![ip_forward](Imagenes/Examen/e_22.png)
 
 ---
 
@@ -354,7 +355,7 @@ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 sudo iptables -t nat -L -n -v
 ```
 
-![iptables NAT](images/img-029.png)
+![iptables NAT](Imagenes/Examen/e_23.png)
 
 **Comprueba internet en el cliente.**
 
@@ -392,15 +393,16 @@ sudo kill -9 4363
 sudo dpkg --configure -a
 sudo apt-get install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind
 ```
+![kinit LAB04](Imagenes/Examen/e_24.png)
 
 ```bash
 kinit administrator@LAB04.LAN
 klist
 ```
 
-![kinit LAB04](images/img-030.png)
+![kinit LAB04](Imagenes/Examen/e_25.png)
 
-![klist LAB04](images/img-031.png)
+
 
 **Mover archivo smb.conf y crear copia de seguridad.**
 
@@ -438,7 +440,7 @@ idmap config *:range = 50000-1000000
     store dos attributes = Yes
 ```
 
-![smb.conf cliente](images/img-032.png)
+![smb.conf cliente](Imagenes/Examen/e_26.png)
 
 ---
 
@@ -460,7 +462,7 @@ Lo siguiente es habilitar los servicios de samba que se van a necesitar con:
 sudo systemctl enable smbd nmbd
 ```
 
-![enable smbd nmbd](images/img-033.png)
+![enable smbd nmbd](Imagenes/Exman/e_27.png)
 
 **Unir Ubuntu desktop a SAMBA AD DC:**
 
@@ -470,7 +472,7 @@ Con el siguiente comando uniré el ubuntu desktop a mi dominio LAB04.LAN:
 sudo net ads join -U administrator
 ```
 
-![net ads join](images/img-034.png)
+![net ads join](Imagenes/Examen/e_28.png)
 
 **Servidor:**
 
@@ -481,7 +483,7 @@ Ejecutar este comando:
 sudo samba-tool computer list
 ```
 
-![computer list](images/img-035.png)
+![computer list](Imagenes/Examen/e_29.png)
 
 ## CONFIGURAR AUTENTICACIÓN DE CUENTAS AD (cliente)
 
@@ -489,7 +491,7 @@ sudo samba-tool computer list
 sudo nano /etc/nsswitch.conf
 ```
 
-![nsswitch.conf](images/img-036.png)
+![nsswitch.conf](Imagenes/Examen/e_30.png)
 
 Si quieres que esté más actualizado pon file:
 
@@ -515,7 +517,7 @@ wbinfo -u
 wbinfo -g
 ```
 
-![wbinfo -u y -g](images/img-037.png)
+![wbinfo -u y -g](Imagenes/Examen/e_31.png)
 
 ---
 
@@ -534,7 +536,7 @@ sudo pam-auth-update
 
 Marcar la opción de: **Create home directory on login**
 
-![pam-auth-update](images/img-038.png)
+![pam-auth-update](Imagenes/Examen/e_32.png)
 
 **Editar el archivo para crear automáticamente los directorios cuando me logue:**
 
@@ -548,7 +550,7 @@ Agregar al final de todo la siguiente línea:
 session required pam_mkhomedir.so skel=/etc/skel/ umask=0022
 ```
 
-![common-account](images/img-039.png)
+![common-account](Imagenes/Examen/e_33.png)
 
 **Autenticarse con cuenta de usuario samba4 AD.** Ingreso con usuario administrator y como está en la imagen he ingresado con el usuario administrator desde cli-ssd (ubuntu desktop).
 
@@ -558,7 +560,7 @@ El administrator no podrá usar sudo porque no está en el grupo sudoers. Para d
 sudo usermod -aG sudo administrator
 ```
 
-![login administrator](images/img-040.png)
+![login administrator](Imagenes/Examen/e_34.png)
 
 Ahora si quiero loguearme con el usuario administrator del servidor ubuntu con interfaz gráfica, cierro la sesión y entro con `administrator@lab04.lan`.
 
@@ -572,7 +574,7 @@ Desde el servidor Samba crear los grupos con su ámbito y usuarios:
 sudo samba-tool group add IT_departaments --group-scope=Universal --group-type=Security
 ```
 
-![Crear grupos](images/img-041.png)
+![Crear grupos](Imagenes/Examen/e_35.png)
 
 **Crear los usuarios:**
 
@@ -580,7 +582,7 @@ sudo samba-tool group add IT_departaments --group-scope=Universal --group-type=S
 sudo samba-tool user create alice
 ```
 
-![Crear usuario alice](images/img-042.png)
+![Crear usuario alice](Imagenes/Examen/e_36.png)
 
 **Añadir los usuarios a los grupos correspondientes:**
 
@@ -588,7 +590,7 @@ sudo samba-tool user create alice
 sudo samba-tool group addmembers IT_admins Alice
 ```
 
-![Añadir usuarios a grupos](images/img-043.png)
+![Añadir usuarios a grupos](Imagenes/Examen/e_37.png)
 
 **Crear Unidades Organizativas:**
 
@@ -596,7 +598,7 @@ sudo samba-tool group addmembers IT_admins Alice
 sudo samba-tool ou create "OU=IT_departaments,DC=lab04,DC=lan"
 ```
 
-![Crear OUs](images/img-044.png)
+![Crear OUs](Imagenes/Examen/e_38.png)
 
 ---
 
@@ -624,7 +626,7 @@ sudo samba-tool group move IT_departaments "OU=HR_Department,DC=lab04,DC=lan"
 sudo samba-tool ou list
 ```
 
-![ou list](images/img-045.png)
+![ou list](Imagenes/Examen/e_39.png)
 
 ---
 
@@ -636,7 +638,7 @@ Samba permite crear el objeto GPO aunque sea para clientes Linux.
 sudo samba-tool gpo create "IT_Security_Policy" -U Administrator
 ```
 
-![Crear GPO](images/img-046.png)
+![Crear GPO](Imagenes/Examen/e_40.png)
 
 **Crear la PSO para la OU de IT_departaments:**
 
@@ -650,7 +652,7 @@ sudo samba-tool domain passwordsettings pso create "PSO_IT_Estricta" 10 \
 
 Este comando define las reglas de 3 intentos y 5 minutos de bloqueo.
 
-![Crear PSO](images/img-047.png)
+![Crear PSO](Imagenes/Examen/e_41.png)
 
 **Aplicar la SPO al grupo:**
 
@@ -670,7 +672,7 @@ sudo mkdir -p /srv/samba/HRdosc
 sudo mkdir -p /srv/samba/Public
 ```
 
-![Crear carpetas](images/img-048.png)
+![Crear carpetas](Imagnes/Examen/42.png)
 
 > Dns del instituto: 10.239.3.7
 
@@ -690,7 +692,7 @@ Configurar el recurso en `sudo nano /etc/samba/smb.conf`, añadir al final del a
     read only = No
 ```
 
-![smb.conf con shares](images/img-049.png)
+![smb.conf con shares](Imagenes/Examen/e_43.png)
 
 **Reiniciar samba:**
 
@@ -729,7 +731,7 @@ winbind enum groups = yes
 winbind use default domain = yes
 ```
 
-![smb.conf mapeo winbind](images/img-050.png)
+![smb.conf mapeo winbind](Imagenes/Examen/e_44.png)
 
 **Forzar la vinculación de librerías NSS:**
 
@@ -738,7 +740,7 @@ sudo ln -sf /lib/x86_64-linux-gnu/libnss_winbind.so.2 /lib/x86_64-linux-gnu/libn
 sudo ldconfig
 ```
 
-![ldconfig](images/img-051.png)
+![ldconfig](Imagenes/Examen/e_45.png)
 
 **Limpieza de Caché y Reinicio Total:**
 
@@ -755,7 +757,7 @@ sudo rm -f /var/lib/samba/group_mapping.tdb
 sudo systemctl start samba-ad-dc
 ```
 
-![Limpieza caché](images/img-052.png)
+![Limpieza caché](Imagenes/Examen/e_46.png)
 
 ```bash
 # Ahora este comando NO fallará
@@ -775,7 +777,7 @@ Si te salen los grupos, prueba esto:
 sudo nano /etc/nsswitch.conf
 ```
 
-![nsswitch.conf actualizado](images/img-053.png)
+![nsswitch.conf actualizado](Imagenes/Examen/e_47.png)
 
 Para que Linux entienda lo que dice winbind, instálala con:
 
@@ -797,7 +799,7 @@ Ahora ejecuta de nuevo:
 getent group "LAB04\it_admins"
 ```
 
-![getent group](images/img-054.png)
+![getent group](Imagenes/Examen/e_48.png)
 
 ### Ejecutar el setfacl correctamente
 
@@ -809,7 +811,7 @@ sudo setfacl -m g:it_admins:rwx /srv/samba/HRdosc
 sudo setfacl -m g:it_admins:rwx /srv/samba/Public
 ```
 
-![setfacl it_admins](images/img-055.png)
+![setfacl it_admins](Imagenes/Examen/e_49.png)
 
 ### Permisos para Studients (Bob - Acceso restringido)
 
@@ -839,7 +841,7 @@ sudo setfacl -m g:it_departaments:rwx /srv/samba/Public
 sudo setfacl -m g:it_departaments:--- /srv/samba/Finance
 ```
 
-![Permiso denegado Finance](images/img-056.png)
+![Permiso denegado Finance](Imagenes/Examen/e_51.png)
 
 ---
 
@@ -847,7 +849,7 @@ sudo setfacl -m g:it_departaments:--- /srv/samba/Finance
 
 Agregar un disco de 10Gb e identificar en el servidor:
 
-![lsblk](images/img-057.png)
+![lsblk](Imagenes/Examen/e_52.png)
 
 **Crear tabla de particiones GPT y una partición primaria:**
 
@@ -856,7 +858,7 @@ sudo parted /dev/sdb mklabel gpt
 sudo parted /dev/sdb mkpart primary ext4 0% 100%
 ```
 
-![parted](images/img-058.png)
+![parted](Imagenes/Examen/e_53.png)
 
 **Formatear y Asignar Etiqueta (Equivalente a NTFS y DataDrive):** En Linux usamos EXT4 por ser el estándar nativo.
 
@@ -864,7 +866,7 @@ sudo parted /dev/sdb mkpart primary ext4 0% 100%
 sudo mkfs.ext4 -L Datadrive /dev/sdb1
 ```
 
-![mkfs.ext4](images/img-059.png)
+![mkfs.ext4](Imagenes/Examen/e_54.png)
 
 **Montar el disco y Mover Carpetas:**
 
@@ -873,7 +875,7 @@ sudo mkdir -p /mnt/Datadrive
 sudo mount /dev/sdb1 /mnt/Datadrive
 ```
 
-![mount Datadrive](images/img-060.png)
+![mount Datadrive](Imagenes/Examen/e_55.png)
 
 **Crear la estructura de carpetas:**
 
@@ -895,7 +897,7 @@ sudo mv /srv/samba/* /mnt/Datadrive/shares/
 LABEL=Datadrive /mnt/Datadrive ext4 defaults 0 2
 ```
 
-![fstab](images/img-061.png)
+![fstab](Imagenes/Examen/e_56.png)
 
 **Actualizar `sudo nano /etc/samba/smb.conf`** ya que las carpetas están en un nuevo disco:
 
@@ -913,7 +915,7 @@ LABEL=Datadrive /mnt/Datadrive ext4 defaults 0 2
     read only = No
 ```
 
-![smb.conf nuevo disco](images/img-062.png)
+![smb.conf nuevo disco](Imagenes/Exmane/e_57.png)
 
 **Reiniciar samba:**
 ```bash
@@ -922,7 +924,8 @@ sudo systemctl restart samba-ad-dc
 
 **Comprobar con cualquiera de los usuarios:**
 
-![Comprobación carpetas compartidas](images/img-063.png)
+![Comprobación carpetas compartidas](images/Examen/e_8.png)
+![Comprobación carpetas compartidas](Imagenes/Examen/e_9.png)
 
 ---
 
@@ -942,7 +945,7 @@ tar -czf /mnt/Datadrive/backup_finance_$fecha.tar.gz /mnt/Datadrive/shares/Finan
 echo "Backup completado exitosamente." >> /var/log/backup_laboratorio.log
 ```
 
-![backup.sh](images/img-064.png)
+![backup.sh](Imagenes/Examen/e_60.png)
 
 Dar los permisos de ejecución al script. Programar la tarea 7pm diariamente:
 
@@ -956,7 +959,7 @@ Primero le das enter y añadir al final de todo:
 0 19 * * * /root/backup.sh
 ```
 
-![crontab](images/img-065.png)
+![crontab](Imagenes/Examen/e_61.png)
 
 ---
 
@@ -976,7 +979,7 @@ Tienes que poner otra vez los permisos por si acaso, pero con la nueva ruta:
 sudo setfacl -m 'g:LAB04\it_admins:rwx' /mnt/Datadrive/shares/Finance
 ```
 
-![smb.conf con full_audit](images/img-066.png)
+![smb.conf con full_audit](Imagenes/Examen/e_62.png)
 
 Luego intentar entrar con Alice a la carpeta Finance e intentar crear/borrar y luego en el servidor comprobar el visor de tareas.
 
@@ -997,7 +1000,7 @@ sudo apt install sl
 sl
 ```
 
-![Tren ASCII](images/img-067.png)
+![Tren ASCII](Imagenes/Examen/e_63.png)
 
 ---
 
@@ -1036,7 +1039,7 @@ Y para reanudar es:
 kill -18 <número de ps aux>
 ```
 
-![kill -19 / kill -18](images/img-068.png)
+![kill -19 / kill -18](Imagenes/Examen/e_64.png)
 
 ---
 
@@ -1053,7 +1056,7 @@ sudo apt install -y acl attr samba samba-dsdb-modules samba-vfs-modules smbclien
 
 Ingresar la contraseña del otro dominio:
 
-![Trust creation](images/img-069.png)
+![Trust creation](Imagenes/Examen/e_65.png)
 
 ---
 
@@ -1067,17 +1070,17 @@ Una vez creada la confianza, debemos comprobar que los dominios "confían" el un
 sudo samba-tool domain trust list
 ```
 
-![trust list ls04](images/img-070.png)
+![trust list ls04](Imagenes/Examen/e_66.png)
 
 **y en ls2044:**
 
-![trust list ls2044](images/img-071.png)
+![trust list ls2044](Imagenes/Examen/e_67.png)
 
 **Prueba de resolución cruzada (nslookup) en ambos servidores:**
 
-![nslookup lab2044.lan](images/img-072.png)
+![nslookup lab2044.lan](Imagenes/Examen/e_68.png)
 
-![nslookup lab04.lan](images/img-073.png)
+![nslookup lab04.lan](Imagenes/Examen/e_69.png)
 
 **Verificar resolución de usuarios remotos (Winbind):**
 
@@ -1085,13 +1088,13 @@ sudo samba-tool domain trust list
 sudo samba-tool user list -H ldap://lab2044.lan -U Administrator
 ```
 
-![user list desde lab04](images/img-074.png)
+![user list desde lab04](Imagenes/Examen/e_70.png)
 
 ```bash
 sudo samba-tool user list -H ldap://lab04.lan -U Administrator
 ```
 
-![user list desde lab2044](images/img-075.png)
+![user list desde lab2044](Imagenes/Examen/e_71.png)
 
 ---
 
@@ -1109,7 +1112,7 @@ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 sudo nano /etc/hosts
 ```
 
-![/etc/hosts con ambos dominios](images/img-076.png)
+![/etc/hosts con ambos dominios](Imagenes/Examen/e_72.png)
 
 **Haz un backup:**
 
@@ -1128,7 +1131,7 @@ nameserver 192.168.10.120
 nameserver 192.168.10.37
 ```
 
-![resolv.conf dual](images/img-077.png)
+![resolv.conf dual](Imagenes/Examen/e_73.png)
 
 **Cierra sesión y haz esto: En el segundo server crea clientes.**
 
@@ -1136,7 +1139,7 @@ nameserver 192.168.10.37
 sudo samba-tool user create paco
 ```
 
-![Crear usuarios en server 2](images/img-078.png)
+![Crear usuarios en server 2](Inagenes/Examen/e_74.png)
 
 **Para comprobar los clientes que tienes en el server dos:**
 
@@ -1144,15 +1147,15 @@ sudo samba-tool user create paco
 wbinfo -u
 ```
 
-![wbinfo -u server 2](images/img-079.png)
+![wbinfo -u server 2](Imagenes/Examen/e_75.png)
 
 **En el server primero:**
 
-![wbinfo -u server 1](images/img-080.png)
+![wbinfo -u server 1](Imagenes/Examen/e_76.png)
 
 **Y ahora en el cliente cierras sesión: Inicias con un cliente del server dos.**
 
-![Login LAB2044\vegetta](images/img-081.png)
+![Login LAB2044\vegetta](Imagenes/Examen/e_77.png)
 
 ---
 
@@ -1185,9 +1188,11 @@ sudo apt install -y acl attr samba samba-dsdb-modules samba-vfs-modules \
 
 Durante la instalación pedirá el dominio de servidores para kerberos, poner el dominio:
 
-![Kerberos realm AWS](images/img-082.png)
+![Kerberos realm AWS](Imagenes/Examen/e_78.png)
 
-![Kerberos server AWS](images/img-083.png)
+![Kerberos realm AWS](Imagenes/Examen/e_79.png)
+
+![Kerberos realm AWS](Imagenes/Examen/e_80.png)
 
 ---
 
@@ -1198,7 +1203,7 @@ sudo systemctl stop smbd nmbd winbind
 sudo systemctl disable smbd nmbd winbind
 ```
 
-![Disable Samba AWS](images/img-084.png)
+![Disable Samba AWS](Imagenes/Examen/e_81.png)
 
 El servidor solo necesita samba ad-dc para funcionar como Active Directory:
 
@@ -1257,7 +1262,7 @@ sudo systemctl start samba-ad-dc
 sudo systemctl status samba-ad-dc
 ```
 
-![Status samba-ad-dc AWS](images/img-085.png)
+![Status samba-ad-dc AWS](Imagenes/Examen/e_82.png)
 
 **Antes debo deshabilitar el archivo resolved:**
 
@@ -1278,7 +1283,7 @@ nameserver 8.8.8.8
 search lab04.lan
 ```
 
-![resolv.conf AWS](images/img-086.png)
+![resolv.conf AWS](Imagenes/Examen/e_83.png)
 
 Ahora hacemos inmutable el archivo `/etc/resolv.conf` para que no pueda cambiar:
 
@@ -1297,6 +1302,6 @@ kinit administrator@LAB04.LAN
 klist
 ```
 
-![kinit AWS](images/img-087.png)
+![kinit AWS](Imagenes/Examen/e_84.png)
 
-![klist AWS](images/img-088.png)
+![klist AWS](Imagenes/Examen/e_85.png)
