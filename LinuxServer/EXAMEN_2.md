@@ -91,9 +91,9 @@ sudo nano /etc/resolv.conf
 
 ```bash
 sudo apt update
-sudo apt install -y acl attr samba samba-dsdb-modules samba-vfs-modules \
-  smbclient winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config \
-  krb5-user dnsutils chrony net-tools
+
+sudo apt install -y acl attr samba samba-dsdb-modules samba-vfs-modules smbclient winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user dnsutils chrony net-tools
+
 ```
 
 Durante la instalación pedirá el dominio de servidores para kerberos, poner el dominio: `lab2044.lan`
@@ -1045,11 +1045,10 @@ kill -18 <número de ps aux>
 Usaremos el comando `samba-tool` para crear una confianza de bosque bidireccional. Este comando se ejecuta en **LS04**.
 
 ```bash
-sudo samba-tool domain trust create lab2044.lan \
-  --type=forest \
-  --direction=both \
-  --create-location=both \
-  --user=Administrator@lab2044.lan
+sudo apt update
+
+sudo apt install -y acl attr samba samba-dsdb-modules samba-vfs-modules smbclient winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user dnsutils chrony net-tools
+
 ```
 
 Ingresar la contraseña del otro dominio:
