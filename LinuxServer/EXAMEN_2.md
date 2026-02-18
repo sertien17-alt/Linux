@@ -6,7 +6,7 @@
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 
-![Configuración netplan](Images/e_0.png)
+![Configuración netplan](Imagenes/e_0.png)
 
 ```yaml
 network:
