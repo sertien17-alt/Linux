@@ -201,7 +201,7 @@ If successful, the Domain Controller is operational.
 su - administrator@LAB04.LAN
 
 
-If login works, the client server is successfully joined to the domain.
+If login works, the client 2 AWS server is successfully joined to the domain.
 
 ---
 
@@ -209,7 +209,7 @@ If login works, the client server is successfully joined to the domain.
 ## 1. Set the hostname of the client machine:
 $ sudo hostnamectl set-hostname cli-ssd
 
-![Linux Course](Imagenes/Sprint2Image/2_2.png)
+
 
 
 ## 2. Hosts File Configuration
@@ -476,4 +476,5 @@ Apply PSO to IT group:
 $ sudo samba-tool domain passwordsettings pso apply "PSO_IT_Estricta" "it_admins" -U Administrator
 
 ![Linux Course](Imagenes/Sprint2Image/2_44.png)
+
 
