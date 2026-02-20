@@ -477,10 +477,9 @@ $ sudo samba-tool domain passwordsettings pso apply "PSO_IT_Estricta" "it_admins
 
 ![Linux Course](Imagenes/Sprint2Image/2_44.png)
 
+# Test to view Windows folders from AWS
 
-# La prueba para ver las carpetas de Windows desde AWS
-
-Estas son las imágenes relevantes:
+These are the relevant images:
 
 ![Linux Course](Imagenes/Sprint5Image/A_2.png)
 
@@ -493,6 +492,7 @@ Estas son las imágenes relevantes:
 ![Linux Course](Imagenes/Sprint5Image/A_5.png)
 
 ![Linux Course](Imagenes/Sprint5Image/A_6.png)
+
 
 
 
